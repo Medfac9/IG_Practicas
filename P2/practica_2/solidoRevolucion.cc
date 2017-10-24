@@ -41,6 +41,8 @@ solidoRevolucion::solidoRevolucion(){
 solidoRevolucion::solidoRevolucion(vector <_vertex3f> perfil, int numero_rev){
   bool hayTapaArriba = false;
   bool hayTapaAbajo = false;
+  bool quieroPonerlaArriba = false;
+  bool quieroPonerlaAbajo = false;
   _vertex3f primerVertice;
   _vertex3f ultimoVertice;
 
@@ -51,6 +53,7 @@ solidoRevolucion::solidoRevolucion(vector <_vertex3f> perfil, int numero_rev){
   }
   else {
     hayTapaArriba = false;
+    quieroPonerlaArriba = true;
     //generamos un nuevo vertice sobre el eje y (basandose en el primer vertice del prefil)
     primerVertice.x = perfil[numero_rev].x;
 		primerVertice.y = 0;
@@ -64,6 +67,7 @@ solidoRevolucion::solidoRevolucion(vector <_vertex3f> perfil, int numero_rev){
   }
   else {
     hayTapaAbajo = false;
+    quieroPonerlaAbajo = true;
     //generamos un nuevo vertice sobre el eje y (basandose en el ultimo vertice del prefil)
     ultimoVertice.x = perfil[numero_rev].x;
 		ultimoVertice.y = 0;
@@ -73,7 +77,7 @@ solidoRevolucion::solidoRevolucion(vector <_vertex3f> perfil, int numero_rev){
   //revolucionar de manera normal
   revolucionar(perfil, numero_rev);
 
-  if(hayTapaArriba){
+  if(hayTapaArriba || quieroPonerlaArriba){
     vertices.push_back(primerVertice); //añadimos el primer vertice a los vertices
     //generamos las caras que unan al vertice que acabamos de añadir con el resto de vertices
 		for(int i = 0; i < vertices.size() - perfil.size(); i = i + perfil.size())
@@ -87,7 +91,7 @@ solidoRevolucion::solidoRevolucion(vector <_vertex3f> perfil, int numero_rev){
 			caras.push_back(c);
 		}
   }
-  if(hayTapaAbajo){
+  if(hayTapaAbajo || quieroPonerlaAbajo){
     vertices.push_back(ultimoVertice);//añadimos el ultimo vertice a los vertices
     //generamos las caras que unan al vertice que acabamos de añadir con el resto de vertices
     for(int i = perfil.size() - 1; i < vertices.size() - perfil.size(); i = i + perfil.size())
