@@ -40,12 +40,14 @@ double a = -45;
 double b = -45;
 double d = 120;
 double e = 0;
-double l = 0.5;
+double l = 0.7;
 int sentidoPala = -1;
 int sentidoAlargamiento = -1;
 int sentidoPaloCorto = -1;
 int sentidoPaloLargo = 0;
 int sentidoCuboAriba = -1;
+int cont = 0;
+int cont2 = 0;
 
 //**************************************************************************
 //
@@ -319,13 +321,58 @@ void animacion(){
 	if(sentidoPaloLargo == 1){
 		d ++;
 		if (d == 130) {
-			sentidoPaloLargo = 0;
+			sentidoPaloLargo = -1;
+			if (cont2 % 2 == 0) {
+				sentidoCuboAriba = 1;
+			}
+			else{
+				sentidoCuboAriba = 0;
+			}
+			cont2 ++;
 		}
 	}
 	if(sentidoPaloLargo == 0){
 		d --;
 		if (d == 90) {
-			sentidoPaloLargo = 1;
+			sentidoPaloLargo = -1;
+			if (cont % 2 == 0) {
+				sentidoPaloCorto = 0;
+			}
+			else {
+				sentidoPala = 1;
+			}
+			cont ++;
+		}
+	}
+/*
+	//Movimiento extendedor
+	if(sentidoAlargamiento == 1){
+		l = l + 0.01;
+		if (l == 2) {
+			sentidoAlargamiento = 0;
+		}
+
+	}
+	if(sentidoAlargamiento == 0){
+		l  = l - 0.001;
+		if (l == 0.499) {
+			sentidoAlargamiento = 1;
+		}
+	}
+*/
+	//Movimiento palo corto
+	if(sentidoPaloCorto == 1){
+		b ++;
+		if (b == 0) {
+			sentidoPaloCorto = 0;
+		}
+	}
+	if(sentidoPaloCorto == 0){
+		b --;
+		if (b == -60) {
+			sentidoPaloCorto = -1;
+			sentidoPala = 0;
+			b ++;
 		}
 	}
 
@@ -333,15 +380,34 @@ void animacion(){
 	if(sentidoPala == 1){
 		a ++;
 		if (a == 0) {
-			sentidoPala = 0;
+			sentidoPala = -1;
+			sentidoPaloLargo = 1;
 		}
 	}
 	if(sentidoPala == 0){
 		a --;
 		if (a == -80) {
-			sentidoPala = 1;
+			sentidoPala = -1;
+			sentidoPaloLargo = 1;
 		}
 	}
+
+	//Movimiento Cubo
+	if(sentidoCuboAriba == 0){
+		e ++;
+		if (e == 0) {
+			sentidoCuboAriba = -1;
+			sentidoPaloLargo = 0;
+		}
+	}
+	if(sentidoCuboAriba == 1){
+		e --;
+		if (e == -80) {
+			sentidoCuboAriba = -1;
+			sentidoPaloLargo = 0;
+		}
+	}
+
 	glutPostRedisplay();
 }
 
@@ -469,7 +535,7 @@ glutReshapeFunc(change_window_size);
 glutKeyboardFunc(normal_keys);
 // asignación de la funcion llamada "tecla_Especial" al evento correspondiente
 glutSpecialFunc(special_keys);
-
+//Animacion
 glutIdleFunc(animacion);
 
 // funcion de inicialización
