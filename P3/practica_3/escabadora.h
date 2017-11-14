@@ -1,7 +1,7 @@
 #ifndef _ESCABADORA_H
 #define _ESCABADORA_H
 
-//#include "objetos.h"
+#include "objetos.h"
 
 class Escabadora
 {
